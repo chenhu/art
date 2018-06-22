@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gg.art.mapper.ProductionMapper" >
+  <resultMap id="BaseResultMap" type="com.gg.art.bean.ProductionBean" >
+    <association property="artist" javaType="com.gg.art.model.Artist">
+      <id column="author_id" jdbcType="INTEGER" property="id" />
+      <result column="author_name" jdbcType="VARCHAR" property="name" />
+      <result column="identity" jdbcType="TINYINT" property="identity" />
+      <result column="birth_year" jdbcType="INTEGER" property="birthYear" />
+      <result column="birth_month" jdbcType="TINYINT" property="birthMonth" />
+      <result column="gender" jdbcType="TINYINT" property="gender" />
+      <result column="nationality" jdbcType="VARCHAR" property="nationality" />
+      <result column="live_province" jdbcType="VARCHAR" property="liveProvince" />
+      <result column="birth_province" jdbcType="VARCHAR" property="birthProvince" />
+      <result column="introduction" jdbcType="LONGVARCHAR" property="introduction" />
+    </association>
+    <association property="production" javaType="com.gg.art.model.Production">
+      <id column="id" property="id" jdbcType="INTEGER" />
+      <result column="property" property="property" jdbcType="TINYINT" />
+      <result column="name" property="name" jdbcType="VARCHAR" />
+      <result column="author_id" property="authorId" jdbcType="INTEGER" />
+      <result column="purchasing_price" property="purchasingPrice" jdbcType="DECIMAL" />
+      <result column="selling_price" property="sellingPrice" jdbcType="DECIMAL" />
+      <result column="supply_channels" property="supplyChannels" jdbcType="INTEGER" />
+      <result column="make_time" property="makeTime" jdbcType="INTEGER" />
+      <result column="purchasing_time" property="purchasingTime" jdbcType="INTEGER" />
+      <result column="selling_time" property="sellingTime" jdbcType="INTEGER" />
+      <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+      <result column="is_selled" property="isSelled" jdbcType="TINYINT" />
+      <result column="image" property="image" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    p.id, p.property, p.name, p.author_id, p.purchasing_price, p.selling_price, p.supply_channels,
+    p.make_time, p.purchasing_time, p.selling_time, p.add_time, p.is_selled, p.image, a.NAME author_name,
+    a.identity, a.birth_year, a.birth_month, a.gender, a.nationality, a.live_province, a.birth_province, a.introduction
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from production_info p LEFT join artist a on a.id = p.author_id
+    where p.id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByParam" parameterType="com.gg.art.bean.ProductionQueryParm" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from production_info p LEFT join artist a on a.id = p.author_id
+    where 1=1
+    <if test="authorName != null">
+      and a.name LIKE CONCAT (#{authorName,jdbcType=VARCHAR}, '%')
+    </if>
+    <if test="name != null">
+      and p.name LIKE CONCAT ('%', #{name,jdbcType=VARCHAR}, '%')
+    </if>
+    <if test="property != null">
+      and p.property = #{property,jdbcType=TINYINT}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from production_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gg.art.model.Production" >
+    insert into production_info (id, property, name, 
+      author_id, purchasing_price, selling_price, 
+      supply_channels, make_time, purchasing_time, 
+      selling_time, add_time, is_selled, 
+      image)
+    values (#{id,jdbcType=INTEGER}, #{property,jdbcType=TINYINT}, #{name,jdbcType=VARCHAR}, 
+      #{authorId,jdbcType=INTEGER}, #{purchasingPrice,jdbcType=DECIMAL}, #{sellingPrice,jdbcType=DECIMAL}, 
+      #{supplyChannels,jdbcType=INTEGER}, #{makeTime,jdbcType=INTEGER}, #{purchasingTime,jdbcType=INTEGER}, 
+      #{sellingTime,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{isSelled,jdbcType=TINYINT}, 
+      #{image,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gg.art.model.Production" >
+    insert into production_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="property != null" >
+        property,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="authorId != null" >
+        author_id,
+      </if>
+      <if test="purchasingPrice != null" >
+        purchasing_price,
+      </if>
+      <if test="sellingPrice != null" >
+        selling_price,
+      </if>
+      <if test="supplyChannels != null" >
+        supply_channels,
+      </if>
+      <if test="makeTime != null" >
+        make_time,
+      </if>
+      <if test="purchasingTime != null" >
+        purchasing_time,
+      </if>
+      <if test="sellingTime != null" >
+        selling_time,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+      <if test="isSelled != null" >
+        is_selled,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="property != null" >
+        #{property,jdbcType=TINYINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="authorId != null" >
+        #{authorId,jdbcType=INTEGER},
+      </if>
+      <if test="purchasingPrice != null" >
+        #{purchasingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="sellingPrice != null" >
+        #{sellingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="supplyChannels != null" >
+        #{supplyChannels,jdbcType=INTEGER},
+      </if>
+      <if test="makeTime != null" >
+        #{makeTime,jdbcType=INTEGER},
+      </if>
+      <if test="purchasingTime != null" >
+        #{purchasingTime,jdbcType=INTEGER},
+      </if>
+      <if test="sellingTime != null" >
+        #{sellingTime,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isSelled != null" >
+        #{isSelled,jdbcType=TINYINT},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gg.art.model.Production" >
+    update production_info
+    <set >
+      <if test="property != null" >
+        property = #{property,jdbcType=TINYINT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="authorId != null" >
+        author_id = #{authorId,jdbcType=INTEGER},
+      </if>
+      <if test="purchasingPrice != null" >
+        purchasing_price = #{purchasingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="sellingPrice != null" >
+        selling_price = #{sellingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="supplyChannels != null" >
+        supply_channels = #{supplyChannels,jdbcType=INTEGER},
+      </if>
+      <if test="makeTime != null" >
+        make_time = #{makeTime,jdbcType=INTEGER},
+      </if>
+      <if test="purchasingTime != null" >
+        purchasing_time = #{purchasingTime,jdbcType=INTEGER},
+      </if>
+      <if test="sellingTime != null" >
+        selling_time = #{sellingTime,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isSelled != null" >
+        is_selled = #{isSelled,jdbcType=TINYINT},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gg.art.model.Production" >
+    update production_info
+    set property = #{property,jdbcType=TINYINT},
+      name = #{name,jdbcType=VARCHAR},
+      author_id = #{authorId,jdbcType=INTEGER},
+      purchasing_price = #{purchasingPrice,jdbcType=DECIMAL},
+      selling_price = #{sellingPrice,jdbcType=DECIMAL},
+      supply_channels = #{supplyChannels,jdbcType=INTEGER},
+      make_time = #{makeTime,jdbcType=INTEGER},
+      purchasing_time = #{purchasingTime,jdbcType=INTEGER},
+      selling_time = #{sellingTime,jdbcType=INTEGER},
+      is_selled = #{isSelled,jdbcType=TINYINT},
+      image = #{image,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

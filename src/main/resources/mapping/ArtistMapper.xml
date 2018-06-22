@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gg.art.mapper.ArtistMapper">
+    <resultMap id="BaseResultMap" type="com.gg.art.model.Artist">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="identity" jdbcType="TINYINT" property="identity"/>
+        <result column="birth_year" jdbcType="INTEGER" property="birthYear"/>
+        <result column="birth_month" jdbcType="TINYINT" property="birthMonth"/>
+        <result column="gender" jdbcType="TINYINT" property="gender"/>
+        <result column="nationality" jdbcType="VARCHAR" property="nationality"/>
+        <result column="live_province" jdbcType="VARCHAR" property="liveProvince"/>
+        <result column="birth_province" jdbcType="VARCHAR" property="birthProvince"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.gg.art.model.Artist">
+        <result column="introduction" jdbcType="LONGVARCHAR" property="introduction"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, NAME, IDENTITY, birth_year, birth_month, gender, nationality, live_province,
+        birth_province
+    </sql>
+    <sql id="Blob_Column_List">
+        introduction
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from artist
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <!--下拉选择作家-->
+    <select id="selectDropDownList" resultMap="BaseResultMap">
+        SELECT
+            name,
+            id
+        FROM artist
+    </select>
+    <select id="selectByParam" parameterType="com.gg.art.bean.ArtistQueryParam" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from artist
+        where 1=1
+        <if test="name != null">
+            and name like CONCAT (#{name,jdbcType=VARCHAR}, '%')
+        </if>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM artist
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.gg.art.model.Artist">
+        INSERT INTO artist (id, name, identity,
+                            birth_year, birth_month, gender,
+                            nationality, live_province, birth_province,
+                            introduction)
+        VALUES (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{identity,jdbcType=TINYINT},
+                #{birthYear,jdbcType=INTEGER}, #{birthMonth,jdbcType=TINYINT}, #{gender,jdbcType=TINYINT},
+                #{nationality,jdbcType=VARCHAR}, #{liveProvince,jdbcType=VARCHAR}, #{birthProvince,jdbcType=VARCHAR},
+                #{introduction,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.gg.art.model.Artist">
+        insert into artist
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="identity != null">
+                identity,
+            </if>
+            <if test="birthYear != null">
+                birth_year,
+            </if>
+            <if test="birthMonth != null">
+                birth_month,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="nationality != null">
+                nationality,
+            </if>
+            <if test="liveProvince != null">
+                live_province,
+            </if>
+            <if test="birthProvince != null">
+                birth_province,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="identity != null">
+                #{identity,jdbcType=TINYINT},
+            </if>
+            <if test="birthYear != null">
+                #{birthYear,jdbcType=INTEGER},
+            </if>
+            <if test="birthMonth != null">
+                #{birthMonth,jdbcType=TINYINT},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=TINYINT},
+            </if>
+            <if test="nationality != null">
+                #{nationality,jdbcType=VARCHAR},
+            </if>
+            <if test="liveProvince != null">
+                #{liveProvince,jdbcType=VARCHAR},
+            </if>
+            <if test="birthProvince != null">
+                #{birthProvince,jdbcType=VARCHAR},
+            </if>
+            <if test="introduction != null">
+                #{introduction,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.gg.art.model.Artist">
+        update artist
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="identity != null">
+                identity = #{identity,jdbcType=TINYINT},
+            </if>
+            <if test="birthYear != null">
+                birth_year = #{birthYear,jdbcType=INTEGER},
+            </if>
+            <if test="birthMonth != null">
+                birth_month = #{birthMonth,jdbcType=TINYINT},
+            </if>
+            <if test="gender != null">
+                gender = #{gender,jdbcType=TINYINT},
+            </if>
+            <if test="nationality != null">
+                nationality = #{nationality,jdbcType=VARCHAR},
+            </if>
+            <if test="liveProvince != null">
+                live_province = #{liveProvince,jdbcType=VARCHAR},
+            </if>
+            <if test="birthProvince != null">
+                birth_province = #{birthProvince,jdbcType=VARCHAR},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.gg.art.model.Artist">
+        UPDATE artist
+        SET name           = #{name,jdbcType=VARCHAR},
+            identity       = #{identity,jdbcType=TINYINT},
+            birth_year     = #{birthYear,jdbcType=INTEGER},
+            birth_month    = #{birthMonth,jdbcType=TINYINT},
+            gender         = #{gender,jdbcType=TINYINT},
+            nationality    = #{nationality,jdbcType=VARCHAR},
+            live_province  = #{liveProvince,jdbcType=VARCHAR},
+            birth_province = #{birthProvince,jdbcType=VARCHAR},
+            introduction   = #{introduction,jdbcType=LONGVARCHAR}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.gg.art.model.Artist">
+        UPDATE artist
+        SET name           = #{name,jdbcType=VARCHAR},
+            identity       = #{identity,jdbcType=TINYINT},
+            birth_year     = #{birthYear,jdbcType=INTEGER},
+            birth_month    = #{birthMonth,jdbcType=TINYINT},
+            gender         = #{gender,jdbcType=TINYINT},
+            nationality    = #{nationality,jdbcType=VARCHAR},
+            live_province  = #{liveProvince,jdbcType=VARCHAR},
+            birth_province = #{birthProvince,jdbcType=VARCHAR}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

@@ -46,16 +46,26 @@
     select
     <include refid="Base_Column_List" />
     from production_info p LEFT join artist a on a.id = p.author_id
-    where 1=1
-    <if test="authorName != null">
-      and a.name LIKE CONCAT (#{authorName,jdbcType=VARCHAR}, '%')
+    <if test="union != null">
+     WHERE p.name LIKE CONCAT ('%', #{union,jdbcType=VARCHAR}, '%')
+      union select
+      <include refid="Base_Column_List" />
+      from production_info p LEFT join artist a on a.id = p.author_id
+      where a.name LIKE CONCAT (#{union,jdbcType=VARCHAR}, '%')
+      union select
+      <include refid="Base_Column_List" />
+      from production_info p LEFT join artist a on a.id = p.author_id
+      WHERE p.property = #{union,jdbcType=VARCHAR}
     </if>
-    <if test="name != null">
-      and p.name LIKE CONCAT ('%', #{name,jdbcType=VARCHAR}, '%')
-    </if>
-    <if test="property != null">
-      and p.property = #{property,jdbcType=TINYINT}
-    </if>
+    <!--<if test="authorName != null">-->
+      <!--and a.name LIKE CONCAT (#{authorName,jdbcType=VARCHAR}, '%')-->
+    <!--</if>-->
+    <!--<if test="name != null">-->
+      <!--and p.name LIKE CONCAT ('%', #{name,jdbcType=VARCHAR}, '%')-->
+    <!--</if>-->
+    <!--<if test="property != null">-->
+      <!--and p.property = #{property,jdbcType=TINYINT}-->
+    <!--</if>-->
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from production_info

@@ -3,7 +3,7 @@
     <list />
   </option>
   <option name="httpMethod" value="POST" />
-  <option name="urlBase" value="http://localhost:8080" />
+  <option name="urlBase" value="http://192.168.11.135:8080" />
   <option name="urlPath" value="/artist/all" />
   <option name="headers">
     <list>

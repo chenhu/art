@@ -8,31 +8,18 @@ package com.gg.art.bean;/**
  * @Description:
  */
 public class ProductionQueryParm extends PageBean {
-    private String authorName;
-    private String name;
-    private int property;
+    /**
+    * description: 这个属性可以是 作家姓名、作品名称、属性 中的任何一个
+    * param:
+    * return:
+    **/
+    private String union;
 
-    public String getAuthorName() {
-        return authorName;
+    public String getUnion() {
+        return union;
     }
 
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getProperty() {
-        return property;
-    }
-
-    public void setProperty(int property) {
-        this.property = property;
+    public void setUnion(String union) {
+        this.union = union;
     }
 }

@@ -6,6 +6,7 @@ package com.gg.art.service.impl;
 import com.gg.art.mapper.CodeMapper;
 import com.gg.art.model.Code;
 import com.gg.art.service.CodeService;
+import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +30,10 @@ public class CodeServiceImpl implements CodeService {
     @Override
     public List<Code> queryByType(String type) {
         return codeMapper.selectByType(type);
+    }
+
+    @Override
+    public List<Code> queryAll() {
+        return codeMapper.selectAll();
     }
 }

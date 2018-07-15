@@ -1,1 +1,1 @@
-curl -F property=2 -F name="nbdetu" -F supplyChannels=2 -F isSelled=1 -F authorId=2 -F file=@"/Users/chenhu/Downloads/example.png" http://localhost:8080/production/add
+curl -F property=2 -F name="nbdetu" -F supplyChannels=2 -F isSelled=1 -F authorId=2 -F file=@"/Users/chenhu/Downloads/example.png" http://192.168.11.135:8080/production/add

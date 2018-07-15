@@ -13,4 +13,6 @@ import java.util.List;
  */
 public interface CodeService {
     List<Code> queryByType(String type);
+    List<Code> queryAll();
+
 }

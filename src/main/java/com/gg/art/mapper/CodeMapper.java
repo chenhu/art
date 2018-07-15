@@ -10,4 +10,5 @@ public interface CodeMapper {
     int insertSelective(Code record);
 
     List<Code> selectByType(String type);
+    List<Code> selectAll();
 }

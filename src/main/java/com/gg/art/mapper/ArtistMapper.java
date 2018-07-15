@@ -2,6 +2,7 @@ package com.gg.art.mapper;
 
 import com.gg.art.bean.ArtistQueryParam;
 import com.gg.art.model.Artist;
+import com.github.pagehelper.Page;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface ArtistMapper {
 
     Artist selectByPrimaryKey(Integer id);
 
-    List<Artist> selectByParam(ArtistQueryParam record);
+    Page<Artist> selectByParam(ArtistQueryParam record);
 
     int updateByPrimaryKeySelective(Artist record);
 

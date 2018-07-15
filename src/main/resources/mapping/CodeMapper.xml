@@ -10,6 +10,9 @@
   <select id="selectByType" parameterType="java.lang.String" resultMap="BaseResultMap">
     select * from D_CODE where type = #{type,jdbcType=VARCHAR}
   </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from D_CODE
+  </select>
   <insert id="insert" parameterType="com.gg.art.model.Code" >
     insert into D_CODE (type, code, index, 
       discription)

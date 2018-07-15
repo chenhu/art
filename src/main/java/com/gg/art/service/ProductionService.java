@@ -5,8 +5,7 @@ package com.gg.art.service;/**
 import com.gg.art.bean.ProductionBean;
 import com.gg.art.bean.ProductionQueryParm;
 import com.gg.art.model.Production;
-
-import java.util.List;
+import com.github.pagehelper.Page;
 
 /**
  * @Auther: chenhu
@@ -22,7 +21,7 @@ public interface ProductionService {
 
     ProductionBean selectById(Integer userId);
 
-    List<ProductionBean> selectByParam(ProductionQueryParm record);
+    Page<ProductionBean> selectByParam(ProductionQueryParm record);
 
     boolean updateByIdSelective(Production record);
 

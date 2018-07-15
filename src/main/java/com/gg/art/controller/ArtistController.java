@@ -1,11 +1,12 @@
 package com.gg.art.controller;
 
 import com.gg.art.bean.ArtistQueryParam;
+import com.gg.art.bean.PageBean;
 import com.gg.art.common.ResponseMessage;
 import com.gg.art.model.Artist;
 import com.gg.art.service.ArtistService;
+import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = "/artist")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class ArtistController {
 
     @Autowired
@@ -91,8 +92,13 @@ public class ArtistController {
     @ResponseBody
     @RequestMapping(value = "/all", produces = {"application/json;charset=UTF-8"}, method = RequestMethod.POST)
     public ResponseMessage selectAll(@RequestBody ArtistQueryParam queryParam){
-        ResponseMessage<List> responseMessage = new ResponseMessage();
-        List<Artist> allArtist = artistService.selectByParam(queryParam);
+        ResponseMessage<Page> responseMessage = new ResponseMessage();
+        Page<Artist> allArtist = artistService.selectByParam(queryParam);
+        PageBean pageInfo = new PageBean();
+        pageInfo.setPageNum(queryParam.getPageNum());
+        pageInfo.setPageSize(queryParam.getPageSize());
+        pageInfo.setTotal(allArtist.getTotal());
+        responseMessage.setPageInfo(pageInfo);
         responseMessage.setCode("0");
         responseMessage.setDescription("成功");
         responseMessage.setMessageBody(allArtist);

@@ -4,6 +4,7 @@ import com.gg.art.bean.ArtistQueryParam;
 import com.gg.art.mapper.ArtistMapper;
 import com.gg.art.model.Artist;
 import com.gg.art.service.ArtistService;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,9 +65,8 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public List<Artist> selectByParam(ArtistQueryParam record) {
-        PageHelper.startPage(record.getPageNum(), record.getPageSize());
-        return artistMapper.selectByParam(record);
+    public Page<Artist> selectByParam(ArtistQueryParam record) {
+        return PageHelper.startPage(record.getPageNum(), record.getPageSize()).doSelectPage(()-> artistMapper.selectByParam(record));
     }
 
     /**

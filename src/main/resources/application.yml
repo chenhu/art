@@ -1,7 +1,8 @@
 server:
   port: 8080
-
 spring:
+    mvc:
+        static-path-pattern: /static/**/**
     datasource:
         name: art
         url: jdbc:mysql://127.0.0.1:3306/art
@@ -26,7 +27,6 @@ spring:
 mybatis:
   mapper-locations: classpath:mapping/*.xml
   type-aliases-package: com.gg.art.model
-
 #pagehelper分页插件
 pagehelper:
     helperDialect: mysql

@@ -3,6 +3,7 @@ package com.gg.art.mapper;
 import com.gg.art.bean.ProductionBean;
 import com.gg.art.bean.ProductionQueryParm;
 import com.gg.art.model.Production;
+import com.github.pagehelper.Page;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface ProductionMapper {
 
     ProductionBean selectByPrimaryKey(Integer id);
 
-    List<ProductionBean> selectByParam(ProductionQueryParm record);
+    Page<ProductionBean> selectByParam(ProductionQueryParm record);
 
     int updateByPrimaryKeySelective(Production record);
 

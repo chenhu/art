@@ -2,6 +2,7 @@ package com.gg.art.service;
 
 import com.gg.art.bean.ArtistQueryParam;
 import com.gg.art.model.Artist;
+import com.github.pagehelper.Page;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface ArtistService {
 
     Artist selectById(Integer userId);
 
-    List<Artist> selectByParam(ArtistQueryParam record);
+    Page<Artist> selectByParam(ArtistQueryParam record);
 
     boolean updateByIdSelective(Artist record);
 

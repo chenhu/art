@@ -10,7 +10,7 @@ import com.gg.art.model.Production;
  * @Date: 2018/6/12 15:48
  * @Description:
  */
-public class ProductionBean {
+public class ProductionBean{
     private Production production;
     private Artist artist;
 

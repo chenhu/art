@@ -1,11 +1,12 @@
 package com.gg.art.controller;
 
+import com.gg.art.bean.PageBean;
 import com.gg.art.bean.ProductionBean;
 import com.gg.art.bean.ProductionQueryParm;
 import com.gg.art.common.ResponseMessage;
 import com.gg.art.model.Production;
 import com.gg.art.service.ProductionService;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +16,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -26,12 +24,13 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping(value = "/production")
+@CrossOrigin(origins = "*")
 public class ProductionController {
 
     @Autowired
     private ProductionService ProductionService;
 
-    private static final String UPLOADED_FOLDER = "/Users/chenhu/projects/java/art/src/main/resources/uploadfiles/";
+    private static final String UPLOADED_FOLDER = "/static/uploadfiles/";
 
     @ResponseBody
     @RequestMapping(value = "/add", produces = {"application/json;charset=UTF-8"}, method = RequestMethod.POST)
@@ -114,9 +113,14 @@ public class ProductionController {
 
     @ResponseBody
     @RequestMapping(value = "/all", produces = {"application/json;charset=UTF-8"}, method = RequestMethod.POST)
-    public ResponseMessage queryByParam(@RequestBody ProductionQueryParm queryParm){
-        ResponseMessage<List> responseMessage = new ResponseMessage();
-        List<ProductionBean> allProduction = ProductionService.selectByParam(queryParm);
+    public ResponseMessage queryByParam(@RequestBody ProductionQueryParm queryParam){
+        ResponseMessage<Page> responseMessage = new ResponseMessage();
+        Page<ProductionBean> allProduction = ProductionService.selectByParam(queryParam);
+        PageBean pageInfo = new PageBean();
+        pageInfo.setPageNum(queryParam.getPageNum());
+        pageInfo.setPageSize(queryParam.getPageSize());
+        pageInfo.setTotal(allProduction.getTotal());
+        responseMessage.setPageInfo(pageInfo);
         responseMessage.setCode("0");
         responseMessage.setDescription("成功");
         responseMessage.setMessageBody(allProduction);
@@ -144,7 +148,8 @@ public class ProductionController {
         byte[] bytes = file.getBytes();
         String originalFileName = file.getOriginalFilename();
         String extensionName = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
-        Path path = Paths.get(UPLOADED_FOLDER + UUID.randomUUID().toString().replaceAll("-", "").concat(".").concat(extensionName));
+        String rootpath = this.getClass().getResource("/").getPath();
+        Path path = Paths.get(rootpath + UPLOADED_FOLDER +  UUID.randomUUID().toString().replaceAll("-", "").concat(".").concat(extensionName));
         Files.write(path, bytes);
         return path.toString();
     }

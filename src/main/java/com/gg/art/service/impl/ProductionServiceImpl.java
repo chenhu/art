@@ -7,6 +7,7 @@ import com.gg.art.bean.ProductionQueryParm;
 import com.gg.art.mapper.ProductionMapper;
 import com.gg.art.model.Production;
 import com.gg.art.service.ProductionService;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * @Auther: chenhu
@@ -72,9 +72,8 @@ public class ProductionServiceImpl implements ProductionService {
     }
 
     @Override
-    public List<ProductionBean> selectByParam(ProductionQueryParm record) {
-        PageHelper.startPage(record.getPageNum(), record.getPageSize());
-        return productionMapper.selectByParam(record);
+    public Page<ProductionBean> selectByParam(ProductionQueryParm record) {
+        return PageHelper.startPage(record.getPageNum(), record.getPageSize()).doSelectPage(()-> productionMapper.selectByParam(record));
     }
 
     @Override

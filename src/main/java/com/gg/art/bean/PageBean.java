@@ -10,11 +10,11 @@ package com.gg.art.bean;/**
 public class PageBean {
     private int pageNum;
     private int pageSize;
+    private Long total;
 
     public int getPageNum() {
         return pageNum;
     }
-
     public void setPageNum(int pageNum) {
         this.pageNum = pageNum;
     }
@@ -25,5 +25,13 @@ public class PageBean {
 
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public Long getTotal() {
+        return total;
+    }
+
+    public void setTotal(Long total) {
+        this.total = total;
     }
 }

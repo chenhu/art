@@ -149,9 +149,10 @@ public class ProductionController {
         String originalFileName = file.getOriginalFilename();
         String extensionName = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
         String rootpath = this.getClass().getResource("/").getPath();
-        Path path = Paths.get(rootpath + UPLOADED_FOLDER +  UUID.randomUUID().toString().replaceAll("-", "").concat(".").concat(extensionName));
+        String filePath = UPLOADED_FOLDER +  UUID.randomUUID().toString().replaceAll("-", "").concat(".").concat(extensionName);
+        Path path = Paths.get(rootpath + filePath);
         Files.write(path, bytes);
-        return path.toString();
+        return filePath;
     }
 
 }
